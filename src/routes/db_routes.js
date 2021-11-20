@@ -8,5 +8,9 @@ module.exports = () => {
       res.status(200).json(await handler.queryVolumes())
     });
 
+    router.get('/dashboard', async function(req, res, next)  {
+      res.status(200).json(await handler.queryTotalVolumesPorMeses(req.query.ano))
+    });
+
     return router;
 }

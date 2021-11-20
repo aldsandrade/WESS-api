@@ -63,4 +63,35 @@ module.exports = {
             });
         })
 	},
+    /**
+     * Função que busca o total de vendas dos meses do ano
+     * @param {string} data string formatada para a data (ano) em questão
+     * @returns {Object} data e quantiade de litros
+     */
+     queryTotalVolumesPorMeses: function(ano) {
+        return new Promise((resolve, reject) => {
+            pool.getConnection(function(error, connection) {
+                if (error) {
+                    console.error(error);
+                    callback(true);
+                    reject();
+                }
+    
+                let sql = "select date_format(data,'%M') AS 'mes', sum(qtd_litros_economizados) AS 'volume' "
+                + "from economia_realizada WHERE year(data) = ? "
+                + "group by year(data),month(data) "
+                + "order by year(data),month(data)";
+    
+                connection.query(sql, [ano], function(error, results) {
+                    if (error) {
+                        console.error(error);
+                        callback(true);
+                        reject();
+                    }
+                    connection.release();
+                    resolve(results);
+                });
+            });
+        })
+	}
 };
