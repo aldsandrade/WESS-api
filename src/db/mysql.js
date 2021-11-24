@@ -17,7 +17,7 @@ module.exports = {
             pool.getConnection(function(error, connection) {
                 if (error) {
                     console.error(error);
-                    callback(true);
+                    connection.release();
                     reject();
                 }
     
@@ -26,9 +26,10 @@ module.exports = {
                 connection.query(sql, [], function(error, results) {
                     if (error) {
                         console.error(error);
-                        callback(true);
+                        connection.release();
                         reject();
                     }
+                    connection.release();
                     resolve(results);
                 });
                 
@@ -46,7 +47,7 @@ module.exports = {
             pool.getConnection(function(error, connection) {
                 if (error) {
                     console.error(error);
-                    callback(true);
+                    connection.release();
                     reject();
                 }
     
@@ -55,9 +56,10 @@ module.exports = {
                 connection.query(sql, [data], function(error, results) {
                     if (error) {
                         console.error(error);
-                        callback(true);
+                        connection.release();
                         reject();
                     }
+                    connection.release();
                     resolve(results);
                 });
             });
@@ -73,7 +75,6 @@ module.exports = {
             pool.getConnection(function(error, connection) {
                 if (error) {
                     console.error(error);
-                    callback(true);
                     reject();
                 }
     
@@ -85,7 +86,7 @@ module.exports = {
                 connection.query(sql, [ano], function(error, results) {
                     if (error) {
                         console.error(error);
-                        callback(true);
+                        connection.release();
                         reject();
                     }
                     connection.release();
